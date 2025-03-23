@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.GuanliyuanDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.serial as serial
+        ,a.name as name
+        ,a.account as account
+        ,a.password as password
+        ,a.age as age
+        ,a.sex_types as sexTypes
+        ,a.mobile as mobile
+        ,a.address as address
+        ,a.role as role
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.GuanliyuanView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Guanliyuan  a
+        <where>
+            <if test=" params.serial != '' and params.serial != null and params.serial != 'null' ">
+                and a.serial like CONCAT('%',#{params.serial},'%')
+            </if>
+            <if test=" params.name != '' and params.name != null and params.name != 'null' ">
+                and a.name like CONCAT('%',#{params.name},'%')
+            </if>
+            <if test=" params.account != '' and params.account != null and params.account != 'null' ">
+                and a.account like CONCAT('%',#{params.account},'%')
+            </if>
+            <if test=" params.password != '' and params.password != null and params.password != 'null' ">
+                and a.password like CONCAT('%',#{params.password},'%')
+            </if>
+            <if test=" params.age != '' and params.age != null and params.age != 'null' ">
+                and a.age = #{params.age}
+            </if>
+            <if test=" params.sexTypes != '' and params.sexTypes != null and params.sexTypes != 'null' ">
+                and a.sex_types = #{params.sexTypes}
+            </if>
+            <if test=" params.mobile != '' and params.mobile != null and params.mobile != 'null' ">
+                and a.mobile like CONCAT('%',#{params.mobile},'%')
+            </if>
+            <if test=" params.address != '' and params.address != null and params.address != 'null' ">
+                and a.address like CONCAT('%',#{params.address},'%')
+            </if>
+            <if test=" params.role != '' and params.role != null and params.role != 'null' ">
+                and a.role like CONCAT('%',#{params.role},'%')
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>

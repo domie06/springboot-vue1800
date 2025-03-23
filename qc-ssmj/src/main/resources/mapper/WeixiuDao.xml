@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.WeixiuDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.serial_types as serialTypes
+        ,a.maintenance as maintenance
+        ,a.ygdate as ygdate
+        ,a.wx_types as wxTypes
+        ,a.pj_types as pjTypes
+        ,a.money as money
+        ,a.create_time as createTime
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.WeixiuView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Weixiu  a left join kehu b on a.serial_types = b.id
+        <where>
+            <if test=" params.serialTypes != '' and params.serialTypes != null and params.serialTypes != 'null' ">
+                and a.serial_types = #{params.serialTypes}
+            </if>
+            <if test=" params.maintenance != '' and params.maintenance != null and params.maintenance != 'null' ">
+                and a.maintenance like CONCAT('%',#{params.maintenance},'%')
+            </if>
+            <if test=" params.ygdate != '' and params.ygdate != null and params.ygdate != 'null' ">
+                and a.ygdate = #{params.ygdate}
+            </if>
+            <if test=" params.wxTypes != '' and params.wxTypes != null and params.wxTypes != 'null' ">
+                and a.wx_types = #{params.wxTypes}
+            </if>
+            <if test=" params.pjTypes != '' and params.pjTypes != null and params.pjTypes != 'null' ">
+                and a.pj_types = #{params.pjTypes}
+            </if>
+            <if test=" params.moneyStart != '' and params.moneyStart != null and params.moneyStart != 'null' ">
+                and a.money &gt;= #{params.moneyStart}
+            </if>
+            <if test=" params.moneyEnd != '' and params.moneyEnd != null and params.moneyEnd != 'null' ">
+                and a.money &lt;= #{params.moneyEnd}
+            </if>
+            <if test=" params.yh != '' and params.yh != null">
+                and b.id = #{params.yh}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.YuangongchuqinDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.serial_types as serialTypes
+        ,a.cq_types as cqTypes
+        ,a.create_time as createTime
+        ,a.notice_content as noticeContent
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.YuangongchuqinView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Yuangongchuqin  a
+        <where>
+            <if test=" params.serialTypes != '' and params.serialTypes != null and params.serialTypes != 'null' ">
+                and a.serial_types = #{params.serialTypes}
+            </if>
+            <if test=" params.cqTypes != '' and params.cqTypes != null and params.cqTypes != 'null' ">
+                and a.cq_types = #{params.cqTypes}
+            </if>
+            <if test=" params.noticeContent != '' and params.noticeContent != null and params.noticeContent != 'null' ">
+                and a.notice_content like CONCAT('%',#{params.noticeContent},'%')
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
